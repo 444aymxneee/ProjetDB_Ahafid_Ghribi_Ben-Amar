@@ -19,11 +19,6 @@ SELECT stff_nom, stff_prenom, stff_role
 FROM staff 
 WHERE stff_role IN ('Sécurité', 'Technique');
 
--- Rechercher les artistes dont le pseudonyme commence par 'P' ou contient 'Toto'.
-SELECT art_id, art_pseudo 
-FROM artist 
-WHERE art_pseudo LIKE 'P%' OR art_pseudo LIKE '%Toto%';
-
 -- Afficher l'historique des commandes triées par montant décroissant pour identifier les plus gros achats.
 SELECT cmd_id, cmd_date, cmd_montant_total 
 FROM commande 
@@ -53,12 +48,6 @@ FROM scene
 GROUP BY fes_id 
 HAVING SUM(scn_capacite) > 20000;
 
--- Compter le nombre d'artistes par pays d'origine (en excluant les pays n'ayant qu'un seul représentant).
-SELECT art_pays, COUNT(art_id) AS nombre_artistes 
-FROM artist 
-GROUP BY art_pays 
-HAVING COUNT(art_id) > 1;
-
 -- Trouver le prix moyen des billets par type (uniquement les types dont le prix moyen dépasse 50€).
 SELECT blt_type, AVG(blt_prix) AS prix_moyen 
 FROM billet 
@@ -71,7 +60,7 @@ FROM artist a
 JOIN possede p ON a.art_id = p.art_id 
 JOIN style s ON p.sty_id = s.sty_id;
 
--- Afficher la liste des artistes du catalogue dont l'identifiant n'est assigné à aucune programmation (artistes non bookés).
+-- Afficher la liste des artistes du catalogue artistes non bookés.
 SELECT art_pseudo AS Artiste_Dispo, art_pays AS Pays
 FROM artist
 WHERE art_id NOT IN (SELECT art_id FROM programmation);
@@ -103,12 +92,7 @@ SELECT scn_nom, scn_capacite
 FROM scene 
 WHERE scn_capacite >= ALL (SELECT scn_capacite FROM scene);
 
--- Trouver les artistes qui ne sont actuellement affectés à aucune programmation de festival.
-SELECT art_pseudo, art_pays 
-FROM artist 
-WHERE art_id NOT IN (SELECT art_id FROM programmation);
-
--- Lister les festivaliers qui ont effectué au moins une commande supérieure à 200€.
+-- Lister les festivaliers qui ont effectué au moins une commande supérieure à 200e.
 SELECT fesv_nom, fesv_prenom 
 FROM festivalier f 
 WHERE EXISTS (

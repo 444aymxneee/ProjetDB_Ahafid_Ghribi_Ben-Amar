@@ -88,4 +88,5 @@ programmation = (
     #crn_id
 )
 
+
 PK(programmation) = (art_id, scn_id, crn_id)
